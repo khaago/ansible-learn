@@ -11,11 +11,12 @@
           owner: bin
           group: wheel
           mode: 064
-        notify: restart apache
+        notify: "web server change"
 
     handlers:      
       - name: restart apache
         service:
           name: httpd
           state: restarted  
+        listen: "web server change"
           
