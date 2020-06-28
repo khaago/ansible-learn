@@ -1,0 +1,6 @@
+#ping.yml
+---
+  - hosts: webservers:loadbalancers
+    tasks:
+      - name: get OS type
+        shell: uname
