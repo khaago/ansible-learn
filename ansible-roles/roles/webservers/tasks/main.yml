@@ -5,6 +5,8 @@
     src: ../files/index.php
     dest: "{{ path_to_app }}"
     mode: 0755
+  when: CONFIRM_UPLOAD == 'yes'
+
 - name: create simple info page
   copy:
     dest: "{{ path_to_app }}/info.php"

@@ -2,5 +2,8 @@
 ---
 - hosts: webservers
   become: true
+  vars_prompt:
+    - name: CONFIRM_UPLOAD
+      prompt: confirm file upload (yes/no)?
   roles:
     - webservers
