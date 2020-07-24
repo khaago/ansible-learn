@@ -12,6 +12,7 @@
           group: wheel
           mode: 064
         notify: "web server change"
+        tags: loadbalancers
 
     handlers:      
       - name: restart apache
@@ -19,4 +20,3 @@
           name: httpd
           state: restarted  
         listen: "web server change"
-          
