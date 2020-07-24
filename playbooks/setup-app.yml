@@ -1,23 +1,41 @@
 # setup-app.yml
 ---
-  - hosts: webservers
-    become: true
-    tasks:
-      - name: deploy page
-        copy:
-          src: ../index.php
-          dest: /var/www/html
-          mode: 0755
-      - name: configure php.ini file
-        lineinfile: 
-          path: /etc/php.ini
-          regexp: ^short_open_tag
-          line: 'short_open_tag=On'
-        notify: "web server change"
-      
-    handlers: 
-      - name: restart apache
-        service:
-          name: httpd
-          state: restarted
-        listen: "web server change"
+- hosts: webservers
+  become: true
+
+  vars:
+    path_to_app: "/var/www/html"
+
+  tasks:
+    - name: deploy page
+      copy:
+        src: ../index.php
+        dest: "{{ path_to_app }}"
+        mode: 0755
+    - name: create simple info page
+      copy:
+        dest: "{{ path_to_app }}/info.php"
+        content: "<h1> Info about our webserver {{ ansible_hostname }} </h1>"
+        mode: 0755
+
+    - name: save directory contents
+      command: ls -la {{ path_to_app }}
+      register: dir_contents  #stores stdout of `command` execution
+
+    - name: debug output
+      debug:
+        msg: "{{ dir_contents }}"
+
+    - name: configure php.ini file
+      lineinfile:
+        path: /etc/php.ini
+        regexp: ^short_open_tag
+        line: 'short_open_tag=On'
+      notify: "web server change"
+
+  handlers:
+    - name: restart apache
+      service:
+        name: httpd
+        state: restarted
+      listen: "web server change"

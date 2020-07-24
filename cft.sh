@@ -1,5 +1,4 @@
-#!/usr/bin/env zsh
-
+echo hello
 if [ $1 == 'create' ]; then
 	aws cloudformation create-stack --stack-name ansible-course \
 	--template-body file://setup-env.yml \
