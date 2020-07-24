@@ -13,6 +13,10 @@ aws ec2 describe-instances \
 Then setup the servers with
 `ansible-playbook playbooks/all-playbooks.yml`
 
+If you have secrets configured with `ansible-vault`, use 
+~~~~
+ansible-playbook playbooks/playbook.yml --ask-vault-pass
+~~~~
 
 To view information about a host:
 `ansible -m setup <hostname>`
